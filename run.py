@@ -9,7 +9,7 @@ accounts = json.load(f)
 with open('infos/usernames.txt', 'r') as f:
     usernames = [line.strip() for line in f]
 
-with open('infos/message.txt', 'r') as f:
+with open('infos/messages.txt', 'r') as f:
     messages = [line.strip() for line in f]
 
 #Lecture des accounts pour se log et init la fonction de message
