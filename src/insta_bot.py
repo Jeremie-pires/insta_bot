@@ -156,6 +156,26 @@ class Bot(object):
         self.__random_sleep__(1, 2)
         self.typeMessage(message)
 
+
+    def scrapFollowers(self, target_user):
+        logging.info(f'Scrap followers of {target_user}')
+        self.driver.get(f"https://www.instagram.com/{target_user}/")
+        self.__random_sleep__(2, 4)
+        self.driver.find_element(By.PARTIAL_LINK_TEXT, "followers").click()
+        self.__random_sleep__(2, 4)
+        followers_popup = self.driver.find_element(By.XPATH, "/html/body/div[4]/div[2]/div/div/div[1]/div/div[2]/div/div/div/div/div[2]/div/div/div[2]")
+        for _ in range(10):
+            self.driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", followers_popup)
+            self.__random_sleep__(1, 2)
+        followers = self.driver.find_elements(By.XPATH, "//div[@role='dialog']//a[contains(@href, '/')]")
+        with open("infos/usernames.txt", "a") as f:
+            for user in followers:
+                username = user.text.strip()
+                if username:
+                    f.write(username + "\n")
+
+
+
     #Timeout
     def __random_sleep__(self, minimum=2, maximum=7):
         t = randint(minimum, maximum)
