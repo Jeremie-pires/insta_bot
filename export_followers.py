@@ -12,27 +12,21 @@ with open('infos/usernames.txt', 'r') as f:
 with open('infos/targets.txt', 'r') as f:
     targets = [line.strip() for line in f]
 
-#Lecture des accounts pour se log et init la fonction de message
+account = accounts[0]
+
+insta = Bot(username=account["username"],
+            password=account["password"], headless=False)
+
 while True:
     if not targets:
         print('No target.')
         break
 
-    for account in accounts:
+    for i in range(10):
         if not targets:
             break
 
-        insta = Bot(username=account["username"],
-                        password=account["password"], headless=False)
+        target_user = targets.pop()
+        insta.scrapFollowers(target_user=target_user)
 
-        for i in range(10):
-
-            if not targets:
-                break
-
-            target_user = targets.pop()
-
-            insta.scrapFollowers(
-                target_user=target_user)
-
-        insta.teardown()
+    insta.teardown()
