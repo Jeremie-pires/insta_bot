@@ -36,7 +36,7 @@ while True:
             with open('infos/users_sended.txt', 'a') as users_sended:
                 users_sended.write(f"{username}\n")
             insta.__random_sleep__(20, 40)
-            clean_usernames()
+        clean_usernames()
 
 
         insta.teardown()
