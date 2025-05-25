@@ -175,7 +175,6 @@ class Bot(object):
                     f.write(username + "\n")
 
 
-
     #Timeout
     def __random_sleep__(self, minimum=1, maximum=60):
         t = randint(minimum, maximum)
