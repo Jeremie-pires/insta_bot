@@ -38,5 +38,4 @@ while True:
             insta.__random_sleep__(20, 40)
         clean_usernames()
 
-
         insta.teardown()
