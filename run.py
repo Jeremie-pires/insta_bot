@@ -1,7 +1,7 @@
 import json
 import random
 from src.insta_bot import Bot
-from clean_usernames import clean_usernames
+import clean_usernames
 
 #Load des fichiers
 f = open('infos/accounts.json',)
@@ -27,7 +27,7 @@ while True:
         insta = Bot(username=account["username"],
                         password=account["password"], headless=False)
 
-        for i in range(10):
+        for i in range(50):
             if not usernames:
                 break
 

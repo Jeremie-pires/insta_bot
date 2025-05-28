@@ -151,10 +151,12 @@ class Bot(object):
                 self.__random_sleep__(1, 2)
             except Exception:
                 print(f'Impossible de trouver {user}')
-            
-        self.driver.find_element(By.XPATH, self.selectors['next_button']).click()
-        self.__random_sleep__(1, 2)
-        self.typeMessage(message)
+        try:    
+            self.driver.find_element(By.XPATH, self.selectors['next_button']).click()
+            self.__random_sleep__(1, 2)
+            self.typeMessage(message)
+        except Exception:
+            pass
 
 
     def scrapFollowers(self, target_user):
@@ -164,7 +166,7 @@ class Bot(object):
         self.driver.find_element(By.PARTIAL_LINK_TEXT, "followers").click()
         self.__random_sleep__(2, 4)
         followers_popup = self.driver.find_element(By.XPATH, "/html/body/div[4]/div[2]/div/div/div[1]/div/div[2]/div/div/div/div/div[2]/div/div/div[2]")
-        for _ in range(5):
+        for _ in range(10):
             self.driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", followers_popup)
             self.__random_sleep__(1, 2)
         followers = self.driver.find_elements(By.XPATH, "//div[@role='dialog']//a[contains(@href, '/')]")

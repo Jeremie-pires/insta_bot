@@ -24,8 +24,8 @@ while True:
 
     for i in range(10):
         if not targets:
+            print('Finished targets.')
             break
-
         target_user = targets.pop()
         insta.scrapFollowers(target_user=target_user)
 
