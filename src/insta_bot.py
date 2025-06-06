@@ -47,38 +47,6 @@ class Bot(object):
         self.driver = webdriver.Chrome(options=options)
         self.driver.maximize_window()
 
-        #Initialisation de la base de données
-        self.workspace = workspace
-        self.conn = None
-        self.cursor = None
-        if self.workspace is not None:
-            self.conn = sqlite3.connect(
-                self.workspace + "Insta_bot/db/instapy.db")
-            self.cursor = self.conn.cursor()
-
-            cursor = self.conn.execute("""
-                SELECT count(*)
-                FROM sqlite_master
-                WHERE type='table'
-                AND name='message';
-            """)
-            count = cursor.fetchone()[0]
-
-            if count == 0:
-                self.conn.execute("""
-                    CREATE TABLE "message" (
-                        "username"    TEXT NOT NULL UNIQUE,
-                        "message"    TEXT DEFAULT NULL,
-                        "sent_message_at"    TIMESTAMP
-                    );
-                """)
-
-        try:
-            self.login(username, password)
-        except Exception as e:
-            logging.error(e)
-            print(str(e))
-
     #Connexion à Instagram
     def login(self, username, password):
         self.driver.get('https://www.instagram.com')
@@ -162,8 +130,15 @@ class Bot(object):
     def scrapFollowers(self, target_user):
         logging.info(f'Scrap followers of {target_user}')
         self.driver.get(f"https://www.instagram.com/{target_user}/")
-        self.__random_sleep__(2, 4)
-        self.driver.find_element(By.PARTIAL_LINK_TEXT, "followers").click()
+        self.__random_sleep__(4, 8)
+        try:
+            WebDriverWait(self.driver, 5).until(
+                lambda d: d.find_element(By.PARTIAL_LINK_TEXT, "followers")
+            ).click()
+            self.__random_sleep__(3, 5)
+        except Exception:
+            print(f"Impossible de trouver les followers de {target_user}")
+            return
         self.__random_sleep__(2, 4)
         followers_popup = self.driver.find_element(By.XPATH, "/html/body/div[4]/div[2]/div/div/div[1]/div/div[2]/div/div/div/div/div[2]/div/div/div[2]")
         for _ in range(10):
