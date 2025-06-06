@@ -40,6 +40,12 @@ class Bot(object):
         self.driver = webdriver.Chrome(options=options)
         self.driver.maximize_window()
 
+        try:
+            self.login(username, password)
+        except Exception as e:
+            logging.error(e)
+            print(str(e))
+
     #Connexion à Instagram
     def login(self, username, password):
         self.driver.get('https://www.instagram.com')
