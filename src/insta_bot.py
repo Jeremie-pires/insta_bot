@@ -20,7 +20,7 @@ DEFAULT_IMPLICIT_WAIT = 1
 
 #Define de la classe Bot
 class Bot(object):
-    def __init__(self, username, password, headless=True, workspace=None, profile_dir=None):
+    def __init__(self, username, password, headless=True):
         #Selecteurs de la page instagram
         self.selectors = {
             "accept_cookies": "//button[text()='Autoriser toutes les cookies']",
@@ -36,12 +36,6 @@ class Bot(object):
 
         #Options selenium
         options = webdriver.ChromeOptions()
-
-        if profile_dir:
-            options.add_argument("user-data-dir=profiles/" + profile_dir)
-
-        if headless:
-            options.add_argument("--headless")
 
         options.add_experimental_option("detach", True)
         self.driver = webdriver.Chrome(options=options)
